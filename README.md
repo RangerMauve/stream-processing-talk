@@ -1,5 +1,6 @@
 title: Stream Processing
 output: index.html
+theme: sudodoki/reveal-cleaver-theme
 
 ---
 <style>
@@ -136,7 +137,18 @@ getUsers()
 - HTTP response from server
 - Results from a database query
 
-![Pouring Honey](https://media.giphy.com/media/CrJ2kSB9hCkzS/giphy.gif)
+``` javascript
+var Readable = require("stream").Readable;
+
+var someSource = new Readable();
+source._read = function(size){
+	this.push("foo");
+	this.push("bar");
+	this.push(null);
+}
+
+someSource.pipe(process.stdout);
+```
 
 ---
 
@@ -145,7 +157,15 @@ getUsers()
 - File to be written to disk
 - HTTP request body to server
 
-<img src="http://45.media.tumblr.com/4613680f27a611b0da38d737b0596a1f/tumblr_n9ns56gS4Y1qc66bjo1_500.gif" title="Sink whirlpool" height="300"/>
+```javascript
+var Writeable = require("stream").Writeable;
+
+var someSink = new Writeable();
+source._write = function(chunk, cb){
+	console.log("Got data:", chunk);
+	cb();
+}
+```
 
 ---
 
@@ -154,7 +174,12 @@ getUsers()
 - Represents a two sided connection
 - TCP / Websockets
 
-![Hampster in tube](https://media.giphy.com/media/hyZLXtoAYenCw/giphy.gif)
+```javascript
+var connection = require("net").connect({port: 123, host: "example.com"});
+
+// Pipe incoming data back to the other side
+connection.pipe(connection);
+```
 
 ---
 
@@ -164,7 +189,18 @@ getUsers()
 - Most processing is done here
 - Mapping output from a DB query to an intermediate step
 
-![Sailor Moon Transforming](https://media.giphy.com/media/YMJttfyUW9So/giphy.gif)
+```javascript
+var Transform = require("stream").Transform;
+var streamify = require("stream-array");
+
+var capitalizer = new Transform();
+capitalizer._transform = function (chunk, cb) {
+	cb(null,chunk.toUpperCase());
+}
+capitalizer._flush = function(cb){cb();}
+
+streamify(["hello"," ","world","!"]).pipe(capitalizer).pipe(process.stdout);
+```
 
 ---
 
@@ -195,3 +231,11 @@ getUsers()
 - Pass to CSV generating stream
 - Write CSV to file
 - Also write to STDOUT
+
+---
+
+## Resources
+
+- [Node.JS docs](https://nodejs.org/api/stream.html#stream_class_stream_transform_1)
+- [Stream Handbook](https://github.com/substack/stream-handbook)
+- [NPM](https://www.npmjs.com/search?q=stream)
