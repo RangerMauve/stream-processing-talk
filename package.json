@@ -1,0 +1,24 @@
+{
+  "name": "stream-processing-talk",
+  "version": "1.0.0",
+  "description": "Talk about streaming processing in Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+		"presentation": "cleaver README.md",
+    "watch-presentation": "cleaver watch README.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RangerMauve/stream-processing-talk.git"
+  },
+  "author": "rangermauve",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RangerMauve/stream-processing-talk/issues"
+  },
+  "homepage": "https://github.com/RangerMauve/stream-processing-talk#readme",
+  "devDependencies": {
+    "cleaver": "^0.8.2"
+  }
+}
