@@ -1,3 +1,4 @@
+"use strict";
 var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 
@@ -7,9 +8,9 @@ var fs = require("fs");
 var map = require("through2-map").obj;
 var filter = require("through2-filter").obj;
 
-var timeDelta = require("time-delta");
-
 var DB_URL = "mongodb://localhost:27017/streamdemo";
+
+MongoClient.connect(DB_URL).then(processUsers);
 
 function processUsers(db) {
 	var userData = db.collection("users")
